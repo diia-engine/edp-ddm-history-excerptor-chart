@@ -1,0 +1,19 @@
+{{- if not (lookup "v1.edp.epam.com/v1alpha1" "KeycloakClient" .Values.namespace .Values.excerptor.clientName ) }}
+apiVersion: v1.edp.epam.com/v1alpha1
+kind: KeycloakClient
+metadata:
+  annotations:
+    helm.sh/resource-policy: keep
+  name: {{ .Values.excerptor.clientName }}
+  namespace: {{ .Values.namespace }}
+spec:
+  clientId: {{ .Values.excerptor.clientId }}
+  description: "Role for history-excerptor-chart service"
+  public: false
+  serviceAccount:
+    enabled: true
+  secret: {{ .Values.excerptor.secretName }}
+  directAccess: false
+  audRequired: false
+  targetRealm: {{ .Values.namespace }}-{{ .Values.excerptor.realm }}
+{{- end }}

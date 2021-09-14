@@ -1,0 +1,90 @@
+---
+# Source: history-excerptor-chart/templates/receive-data-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: receive-data-job-62
+spec:
+  template:
+    metadata:
+      annotations:
+        "helm.sh/hook": "pre-install"
+    spec:
+      serviceAccountName: history-excerptor
+      restartPolicy: Never
+      containers:
+      - name: receive-data-job
+        image: "nexus-docker-registry.apps.cicd2.mdtu-ddm.projects.epam.com/mdtu-ddm-edp-cicd/history-excerptor-mdtuddm-8091-token-fix:1.4.0-MDTUDDM-8091-TOKEN-FIX-SNAPSHOT.1"
+        imagePullPolicy: IfNotPresent
+        command:
+          - sh
+          - '-c'
+          - >-
+            java -jar app.jar --tableName=$tableName --id=$id
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: citus-secrets
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: citus-secrets
+                key: password
+          - name: HISTORIC_SIGNATURES_CEPH_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: datafactory-ceph-bucket
+                key: AWS_ACCESS_KEY_ID
+          - name: HISTORIC_SIGNATURES_CEPH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: datafactory-ceph-bucket
+                key: AWS_SECRET_ACCESS_KEY
+          - name: REQUEST_SIGNATURE_CEPH_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: lowcode-form-data-storage
+                key: AWS_ACCESS_KEY_ID
+          - name: REQUEST_SIGNATURE_CEPH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: lowcode-form-data-storage
+                key: AWS_SECRET_ACCESS_KEY
+          - name: DB_URL
+            value: citus-master-rep
+          - name: DB_NAME
+            value: registry
+          - name: EXCERPT_URL
+            value: http://excerpt-service-api:8080
+          - name: ACCESS_TOKEN
+            value: eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxZzNiLTlvQVI3RFp4Ykptc0ZaMlZNemtDdjBndktMbFhHUGpyREV4X29vIn0.eyJleHAiOjE2MzE2MjU5NjksImlhdCI6MTYzMTYyNTY2OSwianRpIjoiNzcyNTJmMmUtZTQ1Yi00MGNjLWIyYmQtYWU2OTU1YzMwMjYzIiwiaXNzIjoiaHR0cHM6Ly9wbGF0Zm9ybS1rZXljbG9hay5hcHBzLmNpY2QyLm1kdHUtZGRtLnByb2plY3RzLmVwYW0uY29tL2F1dGgvcmVhbG1zL21kdHUtZGRtLWVkcC1jaWNkLW9iMi10ZXN0LWRldi1hZG1pbiIsInN1YiI6ImJjMjc5NzgwLTM1NzktNDZjMS04OTYzLWMxMGU4MGIyMGIyYyIsInR5cCI6IkJlYXJlciIsImF6cCI6Imhpc3RvcnktdXNlciIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiIl0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiY2xpZW50SG9zdCI6Ijg1LjIyMy4yMDkuMTgiLCJjbGllbnRJZCI6Imhpc3RvcnktdXNlciIsInByZWZlcnJlZF91c2VybmFtZSI6InNlcnZpY2UtYWNjb3VudC1oaXN0b3J5LXVzZXIiLCJjbGllbnRBZGRyZXNzIjoiODUuMjIzLjIwOS4xOCJ9.FWGYSM9E7f_q6_1TkkvFeUdI-N-Ft7Octy4xyZNQV7Qu10LoVgu4NBQ7kev8g1-TaNZJXaSUc0gf-B5SXdU0gTgX_0t9udE0z1EInzDiS7awIbhEU0UWlLfbMVRgjpp96zk2tTrFscJNAJSr5vmSbVCS7148xIYFlMZkoEebx1WWlrkJcnP5VnMxs86HvwTzyWkwOS2Xo1iNygfoSHI6Iy1nyKCkvqmQeKlSlcivUyt7nCL0U-RoIFJbU37YsxTxurbu7bDo-OWwpVPEl4LtCQ7sCbWl1HsuUv_cPf7r34IyyaHFp-4Dc96vMbjUVctxPwKI5rm8Xzuq1l55noVHNw
+          - name: DSO_URL
+            value: http://digital-signature-ops:8080
+          - name: REQUEST_SIGNATURE_CEPH_HTTP_ENDPOINT
+            value: http://s3.openshift-storage.svc.cluster.local
+          - name: HISTORIC_SIGNATURES_CEPH_HTTP_ENDPOINT
+            value: http://s3.openshift-storage.svc.cluster.local
+          - name: REQUEST_SIGNATURE_CEPH_BUCKET_NAME
+            value: lowcode-form-data-storage-bbf72a9c-740c-44b4-a046-7c585ce6f965
+          # - name: REQUEST_SIGNATURE_CEPH_ACCESS_KEY
+          #   value: OM0cwNzqXU7oO5wceaZW
+          # - name: REQUEST_SIGNATURE_CEPH_SECRET_KEY
+          #   value: 36S3WhiS69pG/e+l19ptpjHODpnXHDExFrDyqUcz
+          - name: HISTORIC_SIGNATURES_CEPH_BUCKET_NAME
+            value: datafactory-ceph-bucket-ffcc43c5-ac9c-4a2a-a7c5-e756a7dbcdff
+          # - name: HISTORIC_SIGNATURES_CEPH_ACCESS_KEY
+          #   value: 7BceAsDrjhSOd6aPFjUv
+          # - name: HISTORIC_SIGNATURES_CEPH_SECRET_KEY
+          #   value: eumpRLIN2+xVTxEt1+CQgXQeqJp3uQArgpVqHvj3
+          - name: OPENSHIFT_NAMESPACE
+            value: mdtu-ddm-edp-cicd-ob2-test-dev
+          - name: OPENSHIFT_JOB
+            value: receive-data-job-62
+          - name: OPENSHIFT_RESULT_FIELD
+            value: link
+          - name: tableName
+            value: factor
+          - name: id
+            value: ba0960dd-8579-4742-b078-2a7e8e4a3089

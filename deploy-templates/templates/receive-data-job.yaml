@@ -1,0 +1,89 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.excerptor.JobName }}-{{ .Values.buildId }}
+spec:
+  template:
+    metadata:
+      annotations:
+        "helm.sh/hook": "pre-install"
+    spec:
+      serviceAccountName: history-excerptor
+      restartPolicy: Never
+      containers:
+      - name: receive-data-job
+        image: "{{ .Values.excerptor.dockerProxyRegistry }}/{{ .Values.excerptor.edpProject }}/{{ .Values.excerptor.image }}"
+        imagePullPolicy: IfNotPresent
+        command:
+          - sh
+          - '-c'
+          - >-
+            java -jar app.jar --tableName=$tableName --id=$id
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.citus.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.citus.userName }}
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.citus.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.citus.pgsecretKey}}
+          - name: HISTORIC_SIGNATURES_CEPH_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.datafactoryCephBucket.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.datafactoryCephBucket.accessKey }}
+          - name: HISTORIC_SIGNATURES_CEPH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.datafactoryCephBucket.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.datafactoryCephBucket.secretKey }}
+          - name: REQUEST_SIGNATURE_CEPH_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.accessKey }}
+          - name: REQUEST_SIGNATURE_CEPH_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.secretKey }}
+          - name: DB_URL
+            value: {{ .Values.excerptor.dbUrl }}
+          - name: DB_NAME
+            value: {{ .Values.excerptor.dbName }}
+          - name: EXCERPT_URL
+            value: {{ .Values.excerptor.excerpt.url }}
+          - name: ACCESS_TOKEN
+            value: {{ .Values.excerptor.excerpt.token }}
+          - name: DSO_URL
+            value: {{ .Values.excerptor.dsoURL }}
+          - name: REQUEST_SIGNATURE_CEPH_HTTP_ENDPOINT
+            value: {{ .Values.excerptor.httpEndpoint }}
+          - name: HISTORIC_SIGNATURES_CEPH_HTTP_ENDPOINT
+            value: {{ .Values.excerptor.httpEndpoint }}
+          - name: REQUEST_SIGNATURE_CEPH_BUCKET_NAME
+            value: lowcode-form-data-storage-bbf72a9c-740c-44b4-a046-7c585ce6f965
+          - name: HISTORIC_SIGNATURES_CEPH_BUCKET_NAME
+            value: datafactory-ceph-bucket-ffcc43c5-ac9c-4a2a-a7c5-e756a7dbcdff
+          - name: OPENSHIFT_NAMESPACE
+            value: {{ .Values.namespace }}
+          - name: OPENSHIFT_JOB
+            value: {{ .Values.excerptor.JobName }}-{{ .Values.buildId }}
+          - name: OPENSHIFT_RESULT_FIELD
+            value: link
+          - name: tableName
+            value: factor
+          - name: id
+            value: ba0960dd-8579-4742-b078-2a7e8e4a3089
+          
+
+          
+          
+          
+          
+
+
+
