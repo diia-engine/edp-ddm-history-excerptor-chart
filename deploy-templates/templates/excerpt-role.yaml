@@ -1,8 +1,8 @@
-{{- if not (lookup "rbac.authorization.k8s.io/v1" .Values.clusterRole.type .Values.namespace .Values.clusterRole.clusterRoleName ) }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" .Values.clusterRole.type "" .Values.clusterRole.name ) }}
 kind: {{ .Values.clusterRole.type }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ .Values.clusterRole.clusterRoleName }}
+  name: {{ .Values.clusterRole.name }}
   annotations:
     "helm.sh/hook": "pre-install"
 rules:
