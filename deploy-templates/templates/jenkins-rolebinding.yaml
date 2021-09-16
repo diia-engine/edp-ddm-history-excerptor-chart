@@ -11,4 +11,4 @@ roleRef:
   kind: {{ .Values.clusterRole.type }}
   name: {{ .Values.clusterRole.name }}
   apiGroup: rbac.authorization.k8s.io
-{{- end }
+{{- end }}
