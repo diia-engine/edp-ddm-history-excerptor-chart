@@ -16,4 +16,5 @@ rules:
       - '*'
     resources:
       - jobs
+      - clusterrolebindings
 {{- end }}
