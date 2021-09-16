@@ -1,4 +1,4 @@
-{{- if not (lookup "rbac.authorization.k8s.io/v1" .Values.clusterRole.type "" .Values.clusterRole.name ) }}
+{{- if not (lookup "rbac.authorization.k8s.io/v1" .Values.clusterRole.type .Values.namespace .Values.clusterRole.name ) }}
 kind: {{ .Values.clusterRole.type }}
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
