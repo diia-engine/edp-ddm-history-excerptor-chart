@@ -12,7 +12,7 @@ spec:
   public: false
   serviceAccount:
     enabled: true
-  secret: {{ .Values.excerptor.secretName }}
+  secret: {{ .Values.keycloakClient.secretName }}
   directAccess: false
   audRequired: false
   targetRealm: {{ .Values.namespace }}-{{ .Values.keycloakClient.realm }}
