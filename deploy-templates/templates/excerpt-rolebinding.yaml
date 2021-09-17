@@ -1,17 +1,12 @@
-{{- if not (lookup "rbac.authorization.k8s.io/v1" .Values.clusterRoleBinding.type .Values.namespace .Values.clusterRoleBinding.name ) }}
 apiVersion: rbac.authorization.k8s.io/v1
-kind: {{ .Values.clusterRoleBinding.type }}
+kind: {{ .Values.RoleBinding.type }}
 metadata:
-  name: {{ .Values.clusterRoleBinding.name }}
-  annotations:
-    helm.sh/resource-policy: keep
-  namespace: {{ .Values.namespace }}
+  name: {{ .Values.RoleBinding.name }}
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.serviceAccount.name }}
     namespace: {{ .Values.namespace }}
 roleRef:
-  kind: {{ .Values.clusterRole.type }}
-  name: {{ .Values.clusterRole.name }}
+  kind: {{ .Values.Role.type }}
+  name: {{ .Values.Role.name }}
   apiGroup: rbac.authorization.k8s.io
-{{- end }}
