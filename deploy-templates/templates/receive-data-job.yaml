@@ -10,7 +10,7 @@ spec:
       restartPolicy: Never
       containers:
       - name: receive-data-job
-        image: "{{ .Values.image.dockerProxyRegistry }}/{{ .Values.image.edpProject }}/{{ .Values.image.name }}"
+        image: "{{ .Values.image.dockerProxyRegistry }}/{{ .Values.image.edpProject }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         imagePullPolicy: IfNotPresent
         command:
           - sh
