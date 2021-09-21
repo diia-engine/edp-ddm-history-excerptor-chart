@@ -16,7 +16,7 @@ spec:
           - sh
           - '-c'
           - >-
-            java -jar app.jar --tableName=$tableName --id=$id --debug
+            java -jar app.jar --tableName=$tableName --id=$id --trace
         env:
           - name: POSTGRES_USER
             valueFrom:
