@@ -75,7 +75,7 @@ spec:
           - name: tableName
             value: {{ .Values.tableName }}
           - name: id
-            value: {{ .Values.id }}
+            value: {{ .Values.id | squote }}
 {{- end }}
 
           
