@@ -78,10 +78,3 @@ spec:
             value: {{ .Values.id | squote }}
 {{- end }}
 
-          
-          
-          
-          
-
-
-
