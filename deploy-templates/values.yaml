@@ -6,13 +6,57 @@ replicaCount: 1
 
 image:
   repository: history-excerptor-chart
+  name: history-excerptor-mdtuddm-8091-token-fix
+  edpProject: mdtu-ddm-edp-cicd
+  dockerProxyRegistry: nexus-docker-registry.apps.cicd2.mdtu-ddm.projects.epam.com
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: 1.4.0-MDTUDDM-8091-TOKEN-FIX-SNAPSHOT.3
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
+deploy: false
+
+hist: history-excerptor-chart-role
+Role:
+  type: Role
+  name: history-excerpt-role
+RoleBinding:
+  type: RoleBinding
+  name: history-excerptor-chart-role
+
+excerptor:
+  secrets:
+    citus:
+      pgsecretName: citus-secrets
+      userName: username
+      pgsecretKey: password
+    datafactoryCephBucket:
+      pgsecretName: datafactory-ceph-bucket
+      accessKey: AWS_ACCESS_KEY_ID
+      secretKey: AWS_SECRET_ACCESS_KEY
+    lowcodeFormDataStorage:
+      pgsecretName: lowcode-form-data-storage
+      accessKey: AWS_ACCESS_KEY_ID
+      secretKey: AWS_SECRET_ACCESS_KEY
+
+data: 
+  dbUrl: citus-master-rep
+  dbName: registry
+  jobName: receive-data-job
+  excerptUrl: http://excerpt-service-api:8080
+  dsoURL: http://digital-signature-ops:8080
+  httpEndpoint: http://s3.openshift-storage.svc.cluster.local
+  requestBucketName: lowcode-form-data-storage-bbf72a9c-740c-44b4-a046-7c585ce6f965
+  historicBucketName: datafactory-ceph-bucket-ffcc43c5-ac9c-4a2a-a7c5-e756a7dbcdff
+
+keycloakClient:
+  clientName: history-excerpt-history-user-admin
+  clientId: history-user
+  secretName: keycloak-history-user-admin-client-secret
+  realm: admin
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -21,12 +65,13 @@ serviceAccount:
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  name: history-excerptor
 
 podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
+  # gsGroup
 
 securityContext: {}
   # capabilities:
