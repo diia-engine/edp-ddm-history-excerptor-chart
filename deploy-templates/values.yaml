@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: history-excerptor-chart
-  name: istory-excerptor-master
+  name: history-excerptor-master
   edpProject: mdtu-ddm-edp-cicd
   dockerProxyRegistry: nexus-docker-registry.apps.cicd2.mdtu-ddm.projects.epam.com
   pullPolicy: IfNotPresent
