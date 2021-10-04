@@ -6,12 +6,12 @@ replicaCount: 1
 
 image:
   repository: history-excerptor-chart
-  name: history-excerptor-mdtuddm-8091-token-fix
+  name: istory-excerptor-master
   edpProject: mdtu-ddm-edp-cicd
   dockerProxyRegistry: nexus-docker-registry.apps.cicd2.mdtu-ddm.projects.epam.com
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.4.0-MDTUDDM-8091-TOKEN-FIX-SNAPSHOT.3
+  tag: 1.4.0-SNAPSHOT.9
 
 imagePullSecrets: []
 nameOverride: ""
