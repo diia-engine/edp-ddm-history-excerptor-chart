@@ -79,4 +79,3 @@ spec:
           - name: DB_SCHEMA
             value: {{ .Values.DB_SCHEMA }}
 {{- end }}
-
