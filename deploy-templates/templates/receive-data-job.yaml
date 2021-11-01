@@ -48,6 +48,16 @@ spec:
               secretKeyRef:
                 name: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.pgsecretName }}
                 key: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.secretKey }}
+          - name: REQUEST_SIGNATURE_CEPH_HTTP_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.data.requestConfigMapName }}
+                key: {{ .Values.data.cephHost }}
+          - name: HISTORIC_SIGNATURES_CEPH_HTTP_ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.data.historicConfigMapName }}
+                key: {{ .Values.data.cephHost }}
           - name: DB_URL
             value: {{ .Values.data.dbUrl }}
           - name: DB_NAME
@@ -58,10 +68,6 @@ spec:
             value: {{ .Values.token }}
           - name: DSO_URL
             value: {{ .Values.data.dsoURL }}
-          - name: REQUEST_SIGNATURE_CEPH_HTTP_ENDPOINT
-            value: {{ .Values.data.httpEndpoint }}
-          - name: HISTORIC_SIGNATURES_CEPH_HTTP_ENDPOINT
-            value: {{ .Values.data.httpEndpoint }}
           - name: REQUEST_SIGNATURE_CEPH_BUCKET_NAME
             value: {{ .Values.data.requestBucketName }}
           - name: HISTORIC_SIGNATURES_CEPH_BUCKET_NAME

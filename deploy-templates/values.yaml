@@ -48,9 +48,9 @@ data:
   jobName: receive-data-job
   excerptUrl: http://excerpt-service-api:8080
   dsoURL: http://digital-signature-ops:8080
-  httpEndpoint: http://s3.openshift-storage.svc.cluster.local
-  requestBucketName: lowcode-form-data-storage-bbf72a9c-740c-44b4-a046-7c585ce6f965
-  historicBucketName: datafactory-ceph-bucket-ffcc43c5-ac9c-4a2a-a7c5-e756a7dbcdff
+  requestConfigMapName: lowcode-form-data-storage
+  historicConfigMapName: datafactory-ceph-bucket
+  cephHost: BUCKET_HOST
 
 keycloakClient:
   clientName: history-excerpt-history-user-admin
