@@ -28,6 +28,7 @@ RoleBinding:
   name: history-excerptor-chart-role
 
 excerptor:
+  jobName: history-excerptor-job
   secrets:
     citus:
       pgsecretName: citus-roles-secrets

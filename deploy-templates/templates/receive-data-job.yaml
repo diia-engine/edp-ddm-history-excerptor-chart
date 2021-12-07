@@ -3,6 +3,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ .Values.data.jobName }}-{{ .Values.buildId }}
+  labels:
+    name: {{ .Values.excerptor.jobName }}
 spec:
   template:
     spec:
