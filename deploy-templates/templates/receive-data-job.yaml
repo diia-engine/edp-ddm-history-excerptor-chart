@@ -7,6 +7,9 @@ metadata:
     name: {{ .Values.excerptor.jobName }}
 spec:
   template:
+    metadata:
+      labels:
+        name: {{ .Values.excerptor.jobName }}
     spec:
       serviceAccountName: history-excerptor
       restartPolicy: Never
