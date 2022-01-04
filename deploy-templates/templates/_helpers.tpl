@@ -60,10 +60,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{- define "dockerProxyRegistry" -}}
-{{- if .Values.dockerProxyRegistry -}}
-{{- printf "%s/" .Values.dockerProxyRegistry -}}
-{{- else -}}
-{{- end -}}
-{{- end }}
