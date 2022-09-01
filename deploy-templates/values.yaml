@@ -1,0 +1,122 @@
+# Default values for history-excerptor-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: history-excerptor-chart
+  name: history-excerptor-master
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: 1.6.0.1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+deploy: false
+
+hist: history-excerptor-chart-role
+Role:
+  type: Role
+  name: history-excerpt-role
+RoleBinding:
+  type: RoleBinding
+  name: history-excerptor-chart-role
+
+excerptor:
+  jobName: history-excerptor-job
+  secrets:
+    citus:
+      pgsecretName: citus-roles-secrets
+      userName: histRoleName
+      pgsecretKey: histRolePass
+    datafactoryCephBucket:
+      pgsecretName: datafactory-ceph-bucket
+      accessKey: AWS_ACCESS_KEY_ID
+      secretKey: AWS_SECRET_ACCESS_KEY
+    lowcodeFormDataStorage:
+      pgsecretName: lowcode-form-data-storage
+      accessKey: AWS_ACCESS_KEY_ID
+      secretKey: AWS_SECRET_ACCESS_KEY
+
+data: 
+  dbUrl: citus-master-rep
+  dbName: registry
+  jobName: receive-data-job
+  excerptUrl: http://excerpt-service-api:8080
+  dsoURL: http://digital-signature-ops:8080
+  requestConfigMapName: lowcode-form-data-storage
+  historicConfigMapName: datafactory-ceph-bucket
+  cephHost: BUCKET_HOST
+
+keycloakClient:
+  clientName: history-excerpt-history-user-admin
+  clientId: history-user
+  secretName: keycloak-history-user-admin-client-secret
+  realm: admin
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: history-excerptor
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+  # gsGroup
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  host: history-excerptor-chart
+  path: "/"
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
