@@ -9,7 +9,7 @@ image:
   name: history-excerptor-master
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.6.0.1
+  tag: 1.8.0.1
 
 imagePullSecrets: []
 nameOverride: ""
@@ -40,6 +40,9 @@ excerptor:
       pgsecretName: lowcode-form-data-storage
       accessKey: AWS_ACCESS_KEY_ID
       secretKey: AWS_SECRET_ACCESS_KEY
+    redisAuth:
+      pgsecretName: redis-auth
+      secretKey: password
 
 data: 
   dbUrl: citus-master-rep
@@ -50,6 +53,7 @@ data:
   requestConfigMapName: lowcode-form-data-storage
   historicConfigMapName: datafactory-ceph-bucket
   cephHost: BUCKET_HOST
+  redisMaster: mymaster
 
 keycloakClient:
   clientName: history-excerpt-history-user-admin

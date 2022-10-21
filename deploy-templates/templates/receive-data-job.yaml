@@ -53,6 +53,11 @@ spec:
               secretKeyRef:
                 name: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.pgsecretName }}
                 key: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.secretKey }}
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.excerptor.secrets.redisAuth.pgsecretName }}
+                key: {{ .Values.excerptor.secrets.redisAuth.secretKey }}
           - name: REQUEST_SIGNATURE_CEPH_HTTP_ENDPOINT
             valueFrom:
               configMapKeyRef:
@@ -89,4 +94,8 @@ spec:
             value: {{ .Values.id | squote }}
           - name: DB_SCHEMA
             value: {{ .Values.DB_SCHEMA }}
+          - name: REDIS_ENDPOINT
+            value: rfs-redis-sentinel.{{ .Values.namespace }}.svc:26379
+          - name: REDIS_MASTER
+            value: {{ .Values.data.redisMaster }}
 {{- end }}
