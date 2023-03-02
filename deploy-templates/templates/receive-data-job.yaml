@@ -43,26 +43,11 @@ spec:
               secretKeyRef:
                 name: {{ .Values.excerptor.secrets.datafactoryCephBucket.pgsecretName }}
                 key: {{ .Values.excerptor.secrets.datafactoryCephBucket.secretKey }}
-          - name: REQUEST_SIGNATURE_CEPH_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.pgsecretName }}
-                key: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.accessKey }}
-          - name: REQUEST_SIGNATURE_CEPH_SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.pgsecretName }}
-                key: {{ .Values.excerptor.secrets.lowcodeFormDataStorage.secretKey }}
           - name: REDIS_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Values.excerptor.secrets.redisAuth.pgsecretName }}
                 key: {{ .Values.excerptor.secrets.redisAuth.secretKey }}
-          - name: REQUEST_SIGNATURE_CEPH_HTTP_ENDPOINT
-            valueFrom:
-              configMapKeyRef:
-                name: {{ .Values.data.requestConfigMapName }}
-                key: {{ .Values.data.cephHost }}
           - name: HISTORIC_SIGNATURES_CEPH_HTTP_ENDPOINT
             valueFrom:
               configMapKeyRef:
@@ -78,8 +63,6 @@ spec:
             value: {{ .Values.token }}
           - name: DSO_URL
             value: {{ .Values.data.dsoURL }}
-          - name: REQUEST_SIGNATURE_CEPH_BUCKET_NAME
-            value: {{ .Values.data.requestBucketName }}
           - name: HISTORIC_SIGNATURES_CEPH_BUCKET_NAME
             value: {{ .Values.data.historicBucketName }}
           - name: OPENSHIFT_NAMESPACE
