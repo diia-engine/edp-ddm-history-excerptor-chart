@@ -9,7 +9,7 @@ image:
   name: history-excerptor-master
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 1.8.0.1
+  tag: 1.8.0.10
 
 imagePullSecrets: []
 nameOverride: ""
